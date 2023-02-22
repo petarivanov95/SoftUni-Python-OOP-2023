@@ -1,21 +1,22 @@
 
 # solution with functions
 
-num = int(input())
+num = int(input())  # Prompts the user to enter the size of the rhombus.
 
 def rhombus_stars(number):
-    matrix = []
-    for row in range(number * 2 - 1):
-        spaces = abs(number - row - 1)
-        stars = number - spaces
-        row = ' ' * spaces + '* ' * stars
-        matrix.append(row)
+    matrix = []  # Initializes an empty list to store the rows of the rhombus.
+    for row in range(number * 2 - 1):  # Iterates through the rows of the rhombus.
+        spaces = abs(number - row - 1)  # Calculates the number of spaces needed for the current row.
+        stars = number - spaces  # Calculates the number of stars needed for the current row.
+        row = ' ' * spaces + '* ' * stars  # Combines the spaces and stars to form the current row.
+        matrix.append(row)  # Adds the current row to the matrix.
 
-    return matrix
+    return matrix  # Returns the matrix of rows.
 
-my_matrix = rhombus_stars(num)
+my_matrix = rhombus_stars(num)  # Calls the rhombus_stars function to generate the matrix of rows.
 for row in my_matrix:
-    print(row)
+    print(row)  # Prints each row of the matrix.
+
 
 
 # # solution with classes
