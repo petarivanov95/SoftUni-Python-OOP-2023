@@ -25,7 +25,6 @@ for row in my_matrix:
 #     def __init__(self):
 #         self.size = int(input())  # Prompts the user to enter the size of the rhombus.
 
-
 # class Rhombus:
 
 #     def __init__(self):
