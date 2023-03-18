@@ -5,25 +5,25 @@ class Programmer:
         self.language = language
         self.skills = skills
 
-        
-    def watch_course(self,course_name, language, skills_earned):
-        if course_name == self.language:
+    def watch_course(self, course_name, language, skills_earned):
+        if language == self.language:
             self.skills += skills_earned
             return f"{self.name} watched {course_name}"
         return f"{self.name} does not know {language}"
 
     def change_language(self, new_language: str, skills_needed: int) -> str:
-            previous_language = self.language
+        previous_language = self.language
 
-            if self.skills >= skills_needed:
-                if self.language != new_language:
-                    self.language = new_language
+        if self.skills >= skills_needed:
+            if self.language != new_language:
+                self.language = new_language
 
-                    return f"{self.name} switched from {previous_language} to {new_language}"
+                return f"{self.name} switched from {previous_language} to {new_language}"
 
-                return f"{self.name} already knows {self.language}"
+            return f"{self.name} already knows {self.language}"
 
-            return f"{self.name} needs {skills_needed - self.skills} more skills"
+        return f"{self.name} needs {skills_needed - self.skills} more skills"
+
 
 programmer = Programmer("John", "Java", 50)
 print(programmer.watch_course("Python Masterclass", "Python", 84))
