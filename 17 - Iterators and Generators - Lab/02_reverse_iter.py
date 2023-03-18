@@ -1,7 +1,7 @@
 class reverse_iter:
     def __init__(self, iterable) -> None:
         self.iterable = iterable
-        self.length = len(self.iterable)-1
+        self.length = len(self.iterable) - 1
     
     def __iter__(self):
         return self
