@@ -4,7 +4,7 @@ class Shop:
         self.name = name
         self.type = type_shop
         self.capacity = capacity
-        self.items: Dict[str: int] = {}
+        self.items = {}
 
     @classmethod
     def small_shop(cls, name: str, type_shop: str):
