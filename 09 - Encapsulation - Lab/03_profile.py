@@ -36,4 +36,4 @@ class Profile:
 
 
 profile_with_invalid_password = Profile('My_username', 'My-password1')
-print(profile_with_invalid_password.__dict__)
+print(profile_with_invalid_passwo rd.__dict__)
