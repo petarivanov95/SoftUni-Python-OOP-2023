@@ -26,7 +26,7 @@ class Profile:
             raise ValueError(error_message)
         elif value.lower() == value:
             raise ValueError(error_message)
-        elif not [l for l in value if l.isdigit()]:
+        elif not [el for el in value if el.isdigit()]:
             raise ValueError(error_message)
 
         self.__password = value
@@ -36,4 +36,4 @@ class Profile:
 
 
 profile_with_invalid_password = Profile('My_username', 'My-password1')
-print(profile_with_invalid_passwo rd.__dict__)
+print(profile_with_invalid_password.__dict__)
