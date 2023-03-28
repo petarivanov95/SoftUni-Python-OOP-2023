@@ -8,24 +8,22 @@ class Hero:
         self.name = name
         self.health = health
 
-    def defend(self, damage: int):
-        """
-        Decreases the health of the hero by a given amount of damage.
-        :param damage: The amount of damage to be inflicted on the hero.
-        :return: A string message indicating that the hero was defeated, or None if the hero is still alive.
-        """
-        self.health -= damage
+    # def defend(self, damage: int):
+    #     self.health -= damage
+    #
+    #     if self.health <= 0:
+    #         self.health = 0
+    #
+    #         return f"{self.name} was defeated"
 
-        if self.health <= 0:
+    def defend(self, damage):
+        if self.health - damage <= 0:
             self.health = 0
-
             return f"{self.name} was defeated"
+        else:
+            self.health -= damage
 
     def heal(self, amount: int) -> None:
-        """
-        Increases the health of the hero by a given amount.
-        :param amount: The amount to be added to the hero's health.
-        """
         self.health += amount
 
 
@@ -34,3 +32,4 @@ print(hero.defend(50)) # reduces the health of the hero by 50 points and returns
 hero.heal(50) # increases the health of the hero by 50 points
 print(hero.defend(99)) # reduces the health of the hero by 99 points and returns a string message indicating that the hero was defeated, since the health is now 1
 print(hero.defend(1)) # reduces the health of the hero by 1 point and returns a string message indicating that the hero was defeated, since the health is 
+

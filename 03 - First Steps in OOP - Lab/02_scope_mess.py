@@ -9,7 +9,7 @@ def outer():
         print("inner:", x)
 
     def change_global():
-        global x 
+        global x
         # global here gets the x = 'local' and allows it to be changed
         # on the following line
         x = "global: changed!"
