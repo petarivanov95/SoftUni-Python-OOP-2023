@@ -1,11 +1,11 @@
-from project.meals.starter import Starter
+from project.client import Client
 from project.meals.dessert import Dessert
 from project.meals.main_dish import MainDish
-from project.client import Client
+from project.meals.starter import Starter
 
 
 class FoodOrdersApp:
-    INITIAL_RECEIPT_ID = 0
+    RECEIPT_ID = 0
     VALID_MEALS = {
         "Starter": Starter,
         "Dessert": Dessert,
@@ -17,17 +17,20 @@ class FoodOrdersApp:
         self.clients_list = []
 
     @staticmethod
-    def get_next_receipt_id():
-        FoodOrdersApp.INITIAL_RECEIPT_ID += 1
-        return FoodOrdersApp.INITIAL_RECEIPT_ID
+    def get_next_id():
+        FoodOrdersApp.RECEIPT_ID += 1
+        return FoodOrdersApp.RECEIPT_ID
 
     def get_client(self, phone_number):
-        return next(filter(lambda x: (x for x in self.clients_list if x.phone_number == phone_number), self.clients_list))
+        return [c for c in self.clients_list if c.phone_number == phone_number][0]
 
-    @staticmethod
-    def check_client_shopping_cart(client):
+    def check_shopping_cart(self, client):
         if not client.shopping_cart:
             raise Exception("There are no ordered meals!")
+
+    def check_menu_ready(self):
+        if len(self.menu) < 5:
+            raise Exception("The menu is not ready!")
 
     def register_client(self, client_phone_number):
         for client in self.clients_list:
@@ -38,10 +41,6 @@ class FoodOrdersApp:
         self.clients_list.append(client)
 
         return f"Client {client_phone_number} registered successfully."
-
-    def check_menu_ready(self):
-        if len(self.menu) < 5:
-            raise Exception("The menu is not ready!")
 
     def add_meals_to_menu(self, *meals):
         for meal in meals:
@@ -55,13 +54,13 @@ class FoodOrdersApp:
     def add_meals_to_shopping_cart(self, client_phone_number, **meal_names_and_quantities):
         self.check_menu_ready()
 
-        try:
+        try:  # get the client if exists
             client = self.get_client(client_phone_number)
-        except IndexError:
+        except IndexError:  # create a new client if the number is not in the list
             self.register_client(client_phone_number)
             client = self.get_client(client_phone_number)
 
-        meal_names = [m.name for m in self.menu]
+        meal_names = [m.name for m in self.menu]  # get the meal names from the menu
         for meal_name, quantity in meal_names_and_quantities.items():
             if meal_name not in meal_names:
                 raise Exception(f"{meal_name} is not on the menu!")
@@ -88,7 +87,7 @@ class FoodOrdersApp:
     def cancel_order(self, client_phone_number):
         client = self.get_client(client_phone_number)
 
-        self.check_client_shopping_cart(client)  # raises exception if shopping cart is empty
+        self.check_shopping_cart(client)  # raises exception if shopping cart is empty
 
         for meal in self.menu:
             for order in client.shopping_cart:
@@ -102,9 +101,9 @@ class FoodOrdersApp:
 
     def finish_order(self, client_phone_number):
         client = self.get_client(client_phone_number)
-        self.check_client_shopping_cart(client)  # raises exception if shopping cart is empty
+        self.check_shopping_cart(client)  # raises exception if shopping cart is empty
 
-        receipt_id = self.get_next_receipt_id()
+        receipt_id = self.get_next_id()
         total_paid_money = client.bill
         client.bill = 0
         client.shopping_cart = []
@@ -114,31 +113,3 @@ class FoodOrdersApp:
 
     def __str__(self):
         return f"Food Orders App has {len(self.menu)} meals on the menu and {len(self.clients_list)} clients."
-
-food_orders_app = FoodOrdersApp()
-print(food_orders_app.register_client("0899999999"))
-
-french_toast = Starter("French toast", 6.50, 5)
-hummus_and_avocado_sandwich = Starter("Hummus and Avocado Sandwich", 7.90)
-tortilla_with_beef_and_pork = MainDish("Tortilla with Beef and Pork", 12.50, 12)
-risotto_with_wild_mushrooms = MainDish("Risotto with Wild Mushrooms", 15)
-chocolate_cake_with_mascarpone = Dessert("Chocolate Cake with Mascarpone", 4.60, 17)
-chocolate_and_violets = Dessert("Chocolate and Violets", 5.20)
-
-print(food_orders_app.add_meals_to_menu(
-    french_toast, hummus_and_avocado_sandwich,
-    tortilla_with_beef_and_pork,
-    risotto_with_wild_mushrooms,
-    chocolate_cake_with_mascarpone,
-    chocolate_and_violets))
-print(food_orders_app.show_menu())
-food = {"Hummus and Avocado Sandwich": 5,
-        "Risotto with Wild Mushrooms": 1,
-        "Chocolate and Violets": 4}
-print(food_orders_app.add_meals_to_shopping_cart('0899999999', **food))
-additional_food = {"Risotto with Wild Mushrooms": 2,
-                   "Tortilla with Beef and Pork": 2}
-print(food_orders_app.add_meals_to_shopping_cart('0899999999', **additional_food))
-print(food_orders_app.finish_order("0899999999"))
-print(food_orders_app)
-
