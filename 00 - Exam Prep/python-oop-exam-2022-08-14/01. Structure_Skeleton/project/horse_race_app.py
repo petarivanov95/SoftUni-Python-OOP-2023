@@ -22,6 +22,13 @@ class HorseRaceApp:
             raise Exception(f"Jockey {name} could not be found!")
         return jockey
 
+    def get_race(self, race_type):
+        try:
+            race = [r for r in self.horse_races if r.race_type == race_type][0]
+        except IndexError:
+            raise Exception(f"Race {race_type} could not be found!")
+        return race
+
     def add_horse(self, horse_type: str, horse_name: str, horse_speed: int):
         horse_names = [x.name for x in self.horses]
         if horse_type in self.VALID_HORSE_TYPES:
@@ -67,6 +74,23 @@ class HorseRaceApp:
                 return f"Jockey {jockey_name} will ride the horse {horse.name}."
         raise Exception(f"Horse breed {horse_type} could not be found!")
 
+    def add_jockey_to_horse_race(self, race_type: str, jockey_name: str):
+        jockey = self.get_jockey(jockey_name)
+        race = self.get_race(race_type)
+
+        if jockey.horse is None:
+            raise Exception(f"Jockey {jockey_name} cannot race without a horse!")
+
+        for race_jockey in race.jockeys:
+            if race_jockey.name == jockey.name:
+                return f"Jockey {jockey_name} has been already added to the {race_type} race."
+
+        if jockey.horse is not None:
+            race.jockeys.append(jockey)
+            return f"Jockey {jockey_name} added to the {race_type} race."
+
+
+
 
 
 
@@ -80,7 +104,7 @@ print(horseRaceApp.create_horse_race("Summer"))
 print(horseRaceApp.add_horse_to_jockey("Peter", "Appaloosa"))
 print(horseRaceApp.add_horse_to_jockey("Peter", "Thoroughbred"))
 print(horseRaceApp.add_horse_to_jockey("Mariya", "Thoroughbred"))
-# print(horseRaceApp.add_jockey_to_horse_race("Summer", "Mariya"))
-# print(horseRaceApp.add_jockey_to_horse_race("Summer", "Peter"))
-# print(horseRaceApp.add_jockey_to_horse_race("Summer", "Mariya"))
+print(horseRaceApp.add_jockey_to_horse_race("Summer", "Mariya"))
+print(horseRaceApp.add_jockey_to_horse_race("Summer", "Peter"))
+print(horseRaceApp.add_jockey_to_horse_race("Summer", "Mariya"))
 # print(horseRaceApp.start_horse_race("Summer"))
