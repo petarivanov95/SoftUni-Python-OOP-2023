@@ -24,7 +24,7 @@ class Jockey:
             raise ValueError("Jockeys must be at least 18 to participate in the race!")
         self.__age = value
 
-    # TODO KEEP IN MIND THAT ONE JOCKEY CAN RIDE ONLY ONE HORSE
+    #   TODO KEEP IN MIND THAT ONE JOCKEY CAN RIDE ONLY ONE HORSE
 #
 # test_jockey = Jockey('Johm', 15)
 # print(test_jockey.age)
