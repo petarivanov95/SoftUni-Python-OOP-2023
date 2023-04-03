@@ -3,11 +3,12 @@ from abc import ABC, abstractmethod
 
 class Horse(ABC):
     MAX_SPEED = None
+    TRAIN_SPEED = None
 
     def __init__(self, name: str, speed: int):
         self.name = name
         self.speed = speed
-        self.is_taken = False # TODO KEEP IN MIND ONLY ONE HORSE WITH ONE RIDER
+        self.is_taken = False  # TODO KEEP IN MIND ONLY ONE HORSE WITH ONE RIDER
 
     @property
     def name(self):
@@ -29,18 +30,9 @@ class Horse(ABC):
             raise ValueError("Horse speed is too high!")
         self.__speed = value
 
-    @staticmethod
     @abstractmethod
-    def maximum_speed():
-        pass
-
-    @staticmethod
-    @abstractmethod
-    def train_speed():
-        pass
-
     def train(self):
-        if self.speed + self.train_speed() > self.maximum_speed():
-            self.speed = self.maximum_speed()
+        if self.speed + self.TRAIN_SPEED > self.MAX_SPEED():
+            self.speed = self.MAX_SPEED
         else:
-            self.speed += self.train_speed()
+            self.speed += self.TRAIN_SPEED
