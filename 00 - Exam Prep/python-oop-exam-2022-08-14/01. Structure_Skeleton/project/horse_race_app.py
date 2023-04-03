@@ -52,15 +52,22 @@ class HorseRaceApp:
     def add_horse_to_jockey(self, jockey_name: str, horse_type: str):
         jockey = self.get_jockey(jockey_name)
         jockey_names = [x.name for x in self.jockeys]
-        available_horse_types = [x.race_type for x in self.horses if x.is_taken is False]
+        # available_horse_types = [x.race_type for x in self.horses if x.is_taken is False]
 
         if jockey.name not in jockey_names:
             raise Exception(f"Jockey {jockey_name} could not be found!")
 
-        if horse_type not in available_horse_types or len(available_horse_types) == 0:
-            raise Exception("Horse breed {horse_type} could not be found!")
+        for horse in self.horses[::-1]:
+            if horse.__class__.__name__ == horse_type and not horse.is_taken:
+                if jockey.horse is not None:
+                    return f"Jockey {jockey_name} already has a horse."
 
-    
+                jockey.horse = horse
+                horse.is_taken = True
+                return f"Jockey {jockey_name} will ride the horse {horse.name}."
+        raise Exception(f"Horse breed {horse_type} could not be found!")
+
+
 
 
 
@@ -70,9 +77,9 @@ print(horseRaceApp.add_horse("Thoroughbred", "Rocket", 110))
 print(horseRaceApp.add_jockey("Peter", 19))
 print(horseRaceApp.add_jockey("Mariya", 21))
 print(horseRaceApp.create_horse_race("Summer"))
-# print(horseRaceApp.add_horse_to_jockey("Peter", "Appaloosa"))
-# print(horseRaceApp.add_horse_to_jockey("Peter", "Thoroughbred"))
-# print(horseRaceApp.add_horse_to_jockey("Mariya", "Thoroughbred"))
+print(horseRaceApp.add_horse_to_jockey("Peter", "Appaloosa"))
+print(horseRaceApp.add_horse_to_jockey("Peter", "Thoroughbred"))
+print(horseRaceApp.add_horse_to_jockey("Mariya", "Thoroughbred"))
 # print(horseRaceApp.add_jockey_to_horse_race("Summer", "Mariya"))
 # print(horseRaceApp.add_jockey_to_horse_race("Summer", "Peter"))
 # print(horseRaceApp.add_jockey_to_horse_race("Summer", "Mariya"))
