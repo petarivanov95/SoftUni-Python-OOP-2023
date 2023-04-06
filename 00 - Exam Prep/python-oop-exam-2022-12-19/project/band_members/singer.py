@@ -7,7 +7,7 @@ class Singer(Musician):
     def __init__(self, name: str, age: int):
         super().__init__(name, age)
 
-    def learn_new_skills(self, new_skill):
+    def learn_new_skill(self, new_skill):
         if new_skill not in Singer.AVAILABLE_SKILLS:
             raise ValueError(f"{new_skill} is not a needed skill!")
         if new_skill in self.skills:

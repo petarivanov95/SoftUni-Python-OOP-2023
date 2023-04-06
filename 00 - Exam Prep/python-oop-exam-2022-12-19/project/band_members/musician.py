@@ -3,8 +3,6 @@ from abc import ABC, abstractmethod
 
 class Musician(ABC):
 
-
-
     def __init__(self, name: str, age: int):
         self.name = name
         self.age = age
@@ -31,5 +29,5 @@ class Musician(ABC):
         self.__age = value
 
     @abstractmethod
-    def learn_new_skills(self, new_skill):
+    def learn_new_skill(self, new_skill):
         ...
